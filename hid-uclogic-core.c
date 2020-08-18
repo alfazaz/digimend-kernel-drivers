@@ -459,8 +459,8 @@ static int uclogic_raw_event(struct hid_device *hdev,
 				report_id = data[0] = subreport->id;
 				continue;
 			} else {
-				/* A156P tilt compensation */
-				if (hdev->product == USB_DEVICE_ID_UGEE_XPPEN_TABLET_A156P &&
+				/* A156P & A12P tilt compensation */
+				if ( (hdev->product == USB_DEVICE_ID_UGEE_XPPEN_TABLET_A156P || hdev->product == USB_DEVICE_ID_UGEE_XPPEN_TABLET_A12P) &&
 					hdev->vendor == USB_VENDOR_ID_UGEE) {
 					/* All tangent lengths for pen angles 1-64
 					* degrees with a sensor height of 1.8mm
@@ -509,8 +509,8 @@ static int uclogic_raw_event(struct hid_device *hdev,
 						put_unaligned_le16(skew, &data[4]);
 					}
 				}
-
-				return uclogic_raw_event_pen(drvdata, data, size);
+				
+                                return uclogic_raw_event_pen(drvdata, data, size);
 			}
 		}
 
@@ -586,8 +586,10 @@ static const struct hid_device_id uclogic_devices[] = {
 				USB_DEVICE_ID_UGEE_XPPEN_TABLET_DECO01) },
 	{ HID_USB_DEVICE(USB_VENDOR_ID_UGEE,
 				USB_DEVICE_ID_UGEE_XPPEN_TABLET_STAR06) },
-	{ HID_USB_DEVICE(USB_VENDOR_ID_UGEE,
+        { HID_USB_DEVICE(USB_VENDOR_ID_UGEE,
 				USB_DEVICE_ID_UGEE_XPPEN_TABLET_A156P) },
+        { HID_USB_DEVICE(USB_VENDOR_ID_UGEE,
+				USB_DEVICE_ID_UGEE_XPPEN_TABLET_A12P) },
 	{ }
 };
 MODULE_DEVICE_TABLE(hid, uclogic_devices);
